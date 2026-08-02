@@ -1,35 +1,32 @@
-ТОВА Е КОРЕКЦИЯТА ЗА РАЗМЕРА ОТ СНИМКАТА
+ПРЕМИУМ ДИЗАЙН ЗА САМОТО ПРИЛОЖЕНИЕ
 
-Резултат:
-- РК и БЦ се виждат едновременно;
-- скорост и порив са с еднакъв размер;
-- m/s винаги е на същия ред;
-- икона на ветропоказател за РК;
-- икона на фар за БЦ;
-- стрелка за посоката;
-- по-четливи шрифтове без разцепване на редове.
+Замени:
+- activity_main.xml
+- MainActivity.kt
 
-Качи/замени в главната папка:
-1. WindWidgetProvider.kt
-2. widget_wind_medium.xml
-3. ic_wind.xml
+Добави:
+- app_dashboard_background.xml
+- ic_gust.xml
 
 Увери се, че вече имаш:
-- widget_background_premium.xml
 - ic_windsock.xml
 - ic_lighthouse.xml
+- ic_wind.xml
 - ic_direction_arrow.xml
-- widget_wind.xml
-- widget_wind_small.xml
+- compass_circle.xml
 
 В .github/workflows/main.yml добави:
-cp widget_wind_medium.xml app/src/main/res/layout/
-cp ic_wind.xml app/src/main/res/drawable/
 
-После Commit changes.
+cp app_dashboard_background.xml app/src/main/res/drawable/
+cp ic_gust.xml app/src/main/res/drawable/
 
-След инсталацията:
-1. Премахни стария widget от началния екран.
-2. Добави го наново.
-3. Остави го на приблизително същия размер като на снимката.
-4. Ако пак зареди стария изглед, разтегли леко настрани и върни размера.
+Редът за activity_main.xml трябва да остане:
+cp activity_main.xml app/src/main/res/layout/
+
+След Commit changes:
+1. Изчакай зелен build.
+2. Свали APK.
+3. Инсталирай новата версия.
+4. Отвори приложението и натисни бутона за обновяване.
+
+Този пакет променя приложението, не widget-а.
