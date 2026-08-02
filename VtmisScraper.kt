@@ -22,14 +22,17 @@ object VtmisScraper {
 
         document.select("tr").forEach { row ->
             val cells = row.select("th, td")
-                .map {
-                    it.text()
+                .map { cell ->
+                    cell.text()
                         .replace('\u00A0', ' ')
                         .replace(Regex("\\s+"), " ")
                         .trim()
                 }
+                .filter { it.isNotBlank() }
 
-            if (cells.isEmpty()) return@forEach
+            if (cells.isEmpty()) {
+                return@forEach
+            }
 
             val station = wantedStations.firstOrNull { wanted ->
                 cells.first().equals(wanted, ignoreCase = true) ||
@@ -37,29 +40,25 @@ object VtmisScraper {
             } ?: return@forEach
 
             val values = cells.drop(1)
+                .map { value ->
+                    value.replace(',', '.').trim()
+                }
 
-            if (values.size >= 6) {
+            if (values.size >= 3) {
                 results.add(
                     WindReading(
                         station = station,
                         speedMs = values.getOrElse(0) { "—" },
                         maxSpeedMs = values.getOrElse(1) { "—" },
                         directionDeg = values.getOrElse(2) { "—" },
-                        speedKnots =            val values = cells.drop(stationIndex + 1)
-                .map { it.replace(',', '.') }
-                .filter { it.matches(Regex("-?\\d+(\\.\\d+)?")) }
+                        speedKnots = values.getOrElse(3) { "—" },
+                        maxSpeedKnots = values.getOrElse(4) { "—" },
+                        temperatureC = values.getOrElse(5) { "—" }
+                    )
+                )
+            }
+        }
 
-            if (values.size < 3) return@mapNotNull null
-
-            WindReading(
-                station = station,
-                speedMs = values.getOrElse(0) { "—" },
-                maxSpeedMs = values.getOrElse(1) { "—" },
-                directionDeg = values.getOrElse(2) { "—" },
-                speedKnots = values.getOrElse(3) { "—" },
-                maxSpeedKnots = values.getOrElse(4) { "—" },
-                temperatureC = values.getOrElse(5) { "—" }
-            )
-        }.distinctBy { it.station }
+        return results.distinctBy { it.station }
     }
-}
+} 
