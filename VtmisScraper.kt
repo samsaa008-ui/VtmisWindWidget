@@ -1,43 +1,65 @@
 package bg.travelgin.vtmiswind
 
 import org.jsoup.Jsoup
-import java.nio.charset.Charset
 
 object VtmisScraper {
 
-    private const val URL =
-        "https://www.vtmis.bg/wx/meteo_sea.php"
+    private const val URL = "https://www.vtmis.bg/wx/meteo_sea.php"
 
     fun fetch(): List<WindReading> {
-        val response = Jsoup.connect(URL)
-            .userAgent(
-                "Mozilla/5.0 (Linux; Android 16) " +
-                    "AppleWebKit/537.36 Chrome/130 Mobile Safari/537.36"
-            )
+        val document = Jsoup.connect(URL)
+            .userAgent("Mozilla/5.0")
             .referrer("https://www.vtmis.bg/bg/meteobg")
-            .ignoreContentType(true)
-            .followRedirects(true)
-            .timeout(30_000)
-            .execute()
+            .timeout(30000)
+            .get()
 
-        val bytes = response.bodyAsBytes()
-
-        val htmlUtf8 = bytes.toString(Charsets.UTF_8)
-        val htmlWindows1251 =
-            bytes.toString(Charset.forName("windows-1251"))
-
-        val html = when {
-            htmlUtf8.contains("РК Варна") ||
-                htmlUtf8.contains("БЦ Варна") -> htmlUtf8
-
-            htmlWindows1251.contains("РК Варна") ||
-                htmlWindows1251.contains("БЦ Варна") -> htmlWindows1251
-
-            else -> response.body()
-        }
-
-        val document = Jsoup.parse(html, URL)
-        val wantedStations = listOf("РК Варна", "БЦ Варна")
+        val wanted = listOf("РК Варна", "БЦ Варна")
         val results = mutableListOf<WindReading>()
 
-        document.select("tr").forEach 
+        for (row in document.select("tr")) {
+            val cells = row.select("th, td")
+                .map {
+                    it.text()
+                        .replace('\u00A0', ' ')
+                        .replace(Regex("\\s+"), " ")
+                        .trim()
+                }
+                .filter { it.isNotBlank() }
+
+            if (cells.isEmpty()) continue
+
+            val stationIndex = cells.indexOfFirst { cell ->
+                wanted.any { name ->
+                    cell.contains(name, ignoreCase = true)
+                }
+            }
+
+            if (stationIndex < 0) continue
+
+            val station = wanted.first { name ->
+                cells[stationIndex].contains(name, ignoreCase = true)
+            }
+
+            val values = cells
+                .drop(stationIndex + 1)
+                .map { it.replace(',', '.').trim() }
+                .filter { it.matches(Regex("-?\\d+(\\.\\d+)?")) }
+
+            if (values.size >= 3) {
+                results.add(
+                    WindReading(
+                        station = station,
+                        speedMs = values.getOrElse(0) { "—" },
+                        maxSpeedMs = values.getOrElse(1) { "—" },
+                        directionDeg = values.getOrElse(2) { "—" },
+                        speedKnots = values.getOrElse(3) { "—" },
+                        maxSpeedKnots = values.getOrElse(4) { "—" },
+                        temperatureC = values.getOrElse(5) { "—" }
+                    )
+                )
+            }
+        }
+
+        return results.distinctBy { it.station }
+    }
+} 
