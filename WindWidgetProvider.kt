@@ -6,8 +6,6 @@ import android.appwidget.AppWidgetProvider
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
-import android.net.Uri
 import android.os.Bundle
 import android.widget.RemoteViews
 import androidx.work.Constraints
@@ -31,10 +29,10 @@ class WindWidgetProvider : AppWidgetProvider() {
         appWidgetManager: AppWidgetManager,
         appWidgetIds: IntArray
     ) {
-        appWidgetIds.forEach { id ->
+        appWidgetIds.forEach { appWidgetId ->
             appWidgetManager.updateAppWidget(
-                id,
-                buildViews(context, appWidgetManager, id)
+                appWidgetId,
+                buildViews(context, appWidgetId)
             )
         }
         schedulePeriodicRefresh(context)
@@ -49,13 +47,12 @@ class WindWidgetProvider : AppWidgetProvider() {
     ) {
         appWidgetManager.updateAppWidget(
             appWidgetId,
-            buildViews(context, appWidgetManager, appWidgetId)
+            buildViews(context, appWidgetId)
         )
     }
 
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
-
         if (intent.action == ACTION_REFRESH) {
             updateAll(context, loading = true)
             requestRefresh(context)
@@ -66,108 +63,26 @@ class WindWidgetProvider : AppWidgetProvider() {
         const val ACTION_REFRESH = "bg.travelgin.vtmiswind.ACTION_REFRESH"
         private const val PERIODIC_WORK = "vtmis_periodic_refresh"
         private const val MANUAL_WORK = "vtmis_manual_refresh"
-        private const val SMALL_WIDTH_DP = 220
 
         fun updateAll(context: Context, loading: Boolean = false) {
             val manager = AppWidgetManager.getInstance(context)
-            val component = ComponentName(context, WindWidgetProvider::class.java)
+            val component = ComponentName(
+                context,
+                WindWidgetProvider::class.java
+            )
 
-            manager.getAppWidgetIds(component).forEach { id ->
+            manager.getAppWidgetIds(component).forEach { appWidgetId ->
                 manager.updateAppWidget(
-                    id,
-                    buildViews(context, manager, id, loading)
+                    appWidgetId,
+                    buildViews(context, appWidgetId, loading)
                 )
             }
         }
 
         private fun buildViews(
             context: Context,
-            manager: AppWidgetManager,
             appWidgetId: Int,
             loading: Boolean = false
-        ): RemoteViews {
-            val minWidth = manager.getAppWidgetOptions(appWidgetId)
-                .getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH)
-
-            return if (minWidth in 1 until SMALL_WIDTH_DP) {
-                buildSmallViews(context, appWidgetId, loading)
-            } else {
-                buildLargeViews(context, appWidgetId, loading)
-            }
-        }
-
-           private fun buildSmallViews(
-           context: Context,
-           appWidgetId: Int,
-           loading: Boolean
-): RemoteViews {
-    val views = RemoteViews(
-        context.packageName,
-        R.layout.widget_wind_small
-    )
-
-    val rkSpeed = WindRepository.value(context, "rk_speed")
-    val bcSpeed = WindRepository.value(context, "bc_speed")
-
-    views.setTextViewText(
-        R.id.rk_speed_small,
-        "$rkSpeed m/s"
-    )
-    views.setTextViewText(
-        R.id.rk_max_small,
-        "П ${WindRepository.value(context, "rk_max")}"
-    )
-    views.setTextViewText(
-        R.id.rk_direction_small,
-        "${WindRepository.value(context, "rk_direction")}°"
-    )
-
-    views.setTextViewText(
-        R.id.bc_speed_small,
-        "$bcSpeed m/s"
-    )
-    views.setTextViewText(
-        R.id.bc_max_small,
-        "П ${WindRepository.value(context, "bc_max")}"
-    )
-    views.setTextViewText(
-        R.id.bc_direction_small,
-        "${WindRepository.value(context, "bc_direction")}°"
-    )
-
-    views.setTextColor(
-        R.id.rk_speed_small,
-        speedColor(rkSpeed)
-    )
-    views.setTextColor(
-        R.id.bc_speed_small,
-        speedColor(bcSpeed)
-    )
-
-    val updated = WindRepository.value(
-        context,
-        "updated_at",
-        "—"
-    )
-
-    views.setTextViewText(
-        R.id.updated_at_small,
-        if (loading) {
-            "Обновяване…"
-        } else {
-            "Обновено $updated"
-        }
-    )
-
-    attachClicks(context, views, appWidgetId)
-
-    return views
-        }
-
-        private fun buildLargeViews(
-            context: Context,
-            appWidgetId: Int,
-            loading: Boolean
         ): RemoteViews {
             val views = RemoteViews(
                 context.packageName,
@@ -175,36 +90,62 @@ class WindWidgetProvider : AppWidgetProvider() {
             )
 
             val rkSpeed = WindRepository.value(context, "rk_speed")
-            val bcSpeed = WindRepository.value(context, "bc_speed")
-
-            views.setTextViewText(R.id.rk_speed, "$rkSpeed m/s")
-            views.setTextViewText(
-                R.id.rk_max,
-                "Порив ${WindRepository.value(context, "rk_max")} m/s"
+            val rkGust = WindRepository.value(context, "rk_max")
+            val rkDirection = WindRepository.value(
+                context,
+                "rk_direction"
             )
+            val bcSpeed = WindRepository.value(context, "bc_speed")
+            val bcGust = WindRepository.value(context, "bc_max")
+            val bcDirection = WindRepository.value(
+                context,
+                "bc_direction"
+            )
+
+            views.setTextViewText(R.id.rk_speed, rkSpeed)
+            views.setTextViewText(R.id.rk_gust, rkGust)
             views.setTextViewText(
                 R.id.rk_direction,
-                "Посока ${WindRepository.value(context, "rk_direction")}°"
+                formatDegrees(rkDirection)
+            )
+            views.setTextViewText(
+                R.id.rk_direction_name,
+                directionShortName(rkDirection)
             )
 
-            views.setTextViewText(R.id.bc_speed, "$bcSpeed m/s")
-            views.setTextViewText(
-                R.id.bc_max,
-                "Порив ${WindRepository.value(context, "bc_max")} m/s"
-            )
+            views.setTextViewText(R.id.bc_speed, bcSpeed)
+            views.setTextViewText(R.id.bc_gust, bcGust)
             views.setTextViewText(
                 R.id.bc_direction,
-                "Посока ${WindRepository.value(context, "bc_direction")}°"
+                formatDegrees(bcDirection)
+            )
+            views.setTextViewText(
+                R.id.bc_direction_name,
+                directionShortName(bcDirection)
             )
 
-            views.setTextColor(R.id.rk_speed, speedColor(rkSpeed))
-            views.setTextColor(R.id.bc_speed, speedColor(bcSpeed))
+            rkDirection.replace(',', '.').toFloatOrNull()?.let {
+                views.setFloat(
+                    R.id.rk_arrow,
+                    "setRotation",
+                    normalizeDegrees(it + 180f)
+                )
+            }
+
+            bcDirection.replace(',', '.').toFloatOrNull()?.let {
+                views.setFloat(
+                    R.id.bc_arrow,
+                    "setRotation",
+                    normalizeDegrees(it + 180f)
+                )
+            }
 
             val updated = WindRepository.value(
                 context,
                 "updated_at",
                 "няма данни"
             )
+
             views.setTextViewText(
                 R.id.updated_at,
                 if (loading) "Обновяване…" else "Обновено $updated"
@@ -212,6 +153,27 @@ class WindWidgetProvider : AppWidgetProvider() {
 
             attachClicks(context, views, appWidgetId)
             return views
+        }
+
+        private fun formatDegrees(value: String): String {
+            return if (value == "—") "—" else "$value°"
+        }
+
+        private fun normalizeDegrees(value: Float): Float {
+            return ((value % 360f) + 360f) % 360f
+        }
+
+        private fun directionShortName(value: String): String {
+            val degrees = value.replace(',', '.').toDoubleOrNull()
+                ?: return "—"
+
+            val normalized = ((degrees % 360.0) + 360.0) % 360.0
+            val index = ((normalized + 22.5) / 45.0).toInt() % 8
+
+            return listOf(
+                "С", "СИ", "И", "ЮИ",
+                "Ю", "ЮЗ", "З", "СЗ"
+            )[index]
         }
 
         private fun attachClicks(
@@ -259,16 +221,6 @@ class WindWidgetProvider : AppWidgetProvider() {
                 R.id.widget_root,
                 openAppPendingIntent
             )
-        }
-
-        private fun speedColor(value: String): Int {
-            val speed = value.replace(',', '.').toDoubleOrNull() ?: 0.0
-
-            return when {
-                speed < 5.0 -> Color.parseColor("#73E6C2")
-                speed < 10.0 -> Color.parseColor("#FFD166")
-                else -> Color.parseColor("#FF7B7B")
-            }
         }
 
         fun requestRefresh(context: Context) {
