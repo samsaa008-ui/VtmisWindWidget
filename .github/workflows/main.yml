@@ -55,7 +55,8 @@ jobs:
           cp ic_lighthouse.xml app/src/main/res/drawable/
           cp widget_wind_medium.xml app/src/main/res/layout/
           cp ic_wind.xml app/src/main/res/drawable/
-      
+          cp app_dashboard_background.xml app/src/main/res/drawable/
+          cp ic_gust.xml app/src/main/res/drawable/
           cp activity_main.xml app/src/main/res/layout/
           cp widget_wind.xml app/src/main/res/layout/
           cp widget_background.xml app/src/main/res/drawable/
