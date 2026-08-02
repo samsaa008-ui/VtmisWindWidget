@@ -3,38 +3,49 @@ package bg.travelgin.vtmiswind
 import org.jsoup.Jsoup
 
 object VtmisScraper {
-    private const val URL = "https://www.vtmis.bg/bg/meteobg"
+
+    private const val URL = "https://vtmis.bg/wx/meteo.php"
 
     fun fetch(): List<WindReading> {
         val document = Jsoup.connect(URL)
-            .userAgent("Mozilla/5.0 (Android) VtmisWindWidget/1.0")
-            .timeout(20_000)
+            .userAgent(
+                "Mozilla/5.0 (Linux; Android 16) " +
+                    "AppleWebKit/537.36 Chrome/130 Mobile Safari/537.36"
+            )
+            .referrer("https://www.vtmis.bg/bg/meteobg")
+            .timeout(30_000)
+            .followRedirects(true)
             .get()
 
-        val wanted = setOf("РК Варна", "БЦ Варна")
+        val wantedStations = listOf("РК Варна", "БЦ Варна")
+        val results = mutableListOf<WindReading>()
 
-        return document.select("tr").mapNotNull { row ->
+        document.select("tr").forEach { row ->
             val cells = row.select("th, td")
-                .map { it.text().replace('\u00A0', ' ').trim() }
-                .filter { it.isNotBlank() }
-
-            if (cells.isEmpty()) return@mapNotNull null
-
-            val stationIndex = cells.indexOfFirst { cell ->
-                wanted.any { wantedName ->
-                    cell.equals(wantedName, ignoreCase = true) ||
-                        cell.replace(Regex("\\s+"), " ")
-                            .contains(wantedName, ignoreCase = true)
+                .map {
+                    it.text()
+                        .replace('\u00A0', ' ')
+                        .replace(Regex("\\s+"), " ")
+                        .trim()
                 }
-            }
 
-            if (stationIndex < 0) return@mapNotNull null
+            if (cells.isEmpty()) return@forEach
 
-            val station = wanted.first {
-                cells[stationIndex].contains(it, ignoreCase = true)
-            }
+            val station = wantedStations.firstOrNull { wanted ->
+                cells.first().equals(wanted, ignoreCase = true) ||
+                    cells.first().contains(wanted, ignoreCase = true)
+            } ?: return@forEach
 
-            val values = cells.drop(stationIndex + 1)
+            val values = cells.drop(1)
+
+            if (values.size >= 6) {
+                results.add(
+                    WindReading(
+                        station = station,
+                        speedMs = values.getOrElse(0) { "—" },
+                        maxSpeedMs = values.getOrElse(1) { "—" },
+                        directionDeg = values.getOrElse(2) { "—" },
+                        speedKnots =            val values = cells.drop(stationIndex + 1)
                 .map { it.replace(',', '.') }
                 .filter { it.matches(Regex("-?\\d+(\\.\\d+)?")) }
 
