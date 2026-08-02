@@ -1,0 +1,33 @@
+cp AndroidManifest.xml app/src/main/AndroidManifest.xml
+
+          cp MainActivity.kt app/src/main/java/bg/travelgin/vtmiswind/
+          cp VtmisScraper.kt app/src/main/java/bg/travelgin/vtmiswind/
+          cp WindReading.kt app/src/main/java/bg/travelgin/vtmiswind/
+          cp WindRepository.kt app/src/main/java/bg/travelgin/vtmiswind/
+          cp WindUpdateWorker.kt app/src/main/java/bg/travelgin/vtmiswind/
+          cp WindWidgetProvider.kt app/src/main/java/bg/travelgin/vtmiswind/
+
+          cp activity_main.xml app/src/main/res/layout/
+          cp widget_wind.xml app/src/main/res/layout/
+
+          cp app_dashboard_background.xml app/src/main/res/drawable/
+          cp widget_background_premium.xml app/src/main/res/drawable/
+          cp compass_circle.xml app/src/main/res/drawable/
+          cp ic_wind.xml app/src/main/res/drawable/
+          cp ic_gust.xml app/src/main/res/drawable/
+          cp ic_windsock.xml app/src/main/res/drawable/
+          cp ic_lighthouse.xml app/src/main/res/drawable/
+
+          cp ic_direction_n.xml app/src/main/res/drawable/
+          cp ic_direction_ne.xml app/src/main/res/drawable/
+          cp ic_direction_e.xml app/src/main/res/drawable/
+          cp ic_direction_se.xml app/src/main/res/drawable/
+          cp ic_direction_s.xml app/src/main/res/drawable/
+          cp ic_direction_sw.xml app/src/main/res/drawable/
+          cp ic_direction_w.xml app/src/main/res/drawable/
+          cp ic_direction_nw.xml app/src/main/res/drawable/
+
+          cp wind_widget_info.xml app/src/main/res/xml/
+
+          cp strings.xml app/src/main/res/values/
+          cp themes.xml app/src/main/res/values/

@@ -1,36 +1,15 @@
-VTMIS WIDGET 5x2
+ПОПРАВЕН VTMIS WIDGET 5x2
 
-Замени в главната папка:
-- widget_wind.xml
-- WindWidgetProvider.kt
-- wind_widget_info.xml
-- widget_background_premium.xml
-- compass_circle.xml
-- ic_direction_arrow.xml
-- ic_wind.xml
-- ic_gust.xml
-- ic_windsock.xml
-- ic_lighthouse.xml
+Тази версия премахва неподдържания plain View от widget layout-а.
+Премахва и динамичното setRotation върху ImageView.
+Стрелките се сменят чрез 8 готови drawable файла.
 
-В .github/workflows/main.yml трябва да има:
+Качи всички файлове от архива в основната папка на GitHub.
+Замени цялата cp секция с текста от CP-SECTION.txt.
 
-cp widget_wind.xml app/src/main/res/layout/
-cp wind_widget_info.xml app/src/main/res/xml/
-cp widget_background_premium.xml app/src/main/res/drawable/
-cp compass_circle.xml app/src/main/res/drawable/
-cp ic_direction_arrow.xml app/src/main/res/drawable/
-cp ic_wind.xml app/src/main/res/drawable/
-cp ic_gust.xml app/src/main/res/drawable/
-cp ic_windsock.xml app/src/main/res/drawable/
-cp ic_lighthouse.xml app/src/main/res/drawable/
-
-След инсталацията:
-1. Премахни стария widget.
-2. Добави го отново.
-3. Android ще го предложи като 5x2.
-4. При различен launcher може да се наложи леко разтягане.
-
-Обновяване:
-- автоматично приблизително на 15 минути;
-- ръчно чрез ↻;
-- стрелката е обърната с 180°, за да показва накъде духа.
+След успешния build:
+1. Деинсталирай старата версия на приложението.
+2. Инсталирай новия APK.
+3. Премахни стария widget от началния екран.
+4. Добави widget-а отново като 5x2.
+5. Натисни ↻.

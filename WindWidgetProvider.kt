@@ -35,6 +35,7 @@ class WindWidgetProvider : AppWidgetProvider() {
                 buildViews(context, appWidgetId)
             )
         }
+
         schedulePeriodicRefresh(context)
         requestRefresh(context)
     }
@@ -53,6 +54,7 @@ class WindWidgetProvider : AppWidgetProvider() {
 
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
+
         if (intent.action == ACTION_REFRESH) {
             updateAll(context, loading = true)
             requestRefresh(context)
@@ -60,11 +62,19 @@ class WindWidgetProvider : AppWidgetProvider() {
     }
 
     companion object {
-        const val ACTION_REFRESH = "bg.travelgin.vtmiswind.ACTION_REFRESH"
-        private const val PERIODIC_WORK = "vtmis_periodic_refresh"
-        private const val MANUAL_WORK = "vtmis_manual_refresh"
+        const val ACTION_REFRESH =
+            "bg.travelgin.vtmiswind.ACTION_REFRESH"
 
-        fun updateAll(context: Context, loading: Boolean = false) {
+        private const val PERIODIC_WORK =
+            "vtmis_periodic_refresh"
+
+        private const val MANUAL_WORK =
+            "vtmis_manual_refresh"
+
+        fun updateAll(
+            context: Context,
+            loading: Boolean = false
+        ) {
             val manager = AppWidgetManager.getInstance(context)
             val component = ComponentName(
                 context,
@@ -89,18 +99,19 @@ class WindWidgetProvider : AppWidgetProvider() {
                 R.layout.widget_wind
             )
 
-            val rkSpeed = WindRepository.value(context, "rk_speed")
-            val rkGust = WindRepository.value(context, "rk_max")
-            val rkDirection = WindRepository.value(
-                context,
-                "rk_direction"
-            )
-            val bcSpeed = WindRepository.value(context, "bc_speed")
-            val bcGust = WindRepository.value(context, "bc_max")
-            val bcDirection = WindRepository.value(
-                context,
-                "bc_direction"
-            )
+            val rkSpeed =
+                WindRepository.value(context, "rk_speed")
+            val rkGust =
+                WindRepository.value(context, "rk_max")
+            val rkDirection =
+                WindRepository.value(context, "rk_direction")
+
+            val bcSpeed =
+                WindRepository.value(context, "bc_speed")
+            val bcGust =
+                WindRepository.value(context, "bc_max")
+            val bcDirection =
+                WindRepository.value(context, "bc_direction")
 
             views.setTextViewText(R.id.rk_speed, rkSpeed)
             views.setTextViewText(R.id.rk_gust, rkGust)
@@ -111,6 +122,10 @@ class WindWidgetProvider : AppWidgetProvider() {
             views.setTextViewText(
                 R.id.rk_direction_name,
                 directionShortName(rkDirection)
+            )
+            views.setImageViewResource(
+                R.id.rk_arrow,
+                directionDrawable(rkDirection)
             )
 
             views.setTextViewText(R.id.bc_speed, bcSpeed)
@@ -123,22 +138,10 @@ class WindWidgetProvider : AppWidgetProvider() {
                 R.id.bc_direction_name,
                 directionShortName(bcDirection)
             )
-
-            rkDirection.replace(',', '.').toFloatOrNull()?.let {
-                views.setFloat(
-                    R.id.rk_arrow,
-                    "setRotation",
-                    normalizeDegrees(it + 180f)
-                )
-            }
-
-            bcDirection.replace(',', '.').toFloatOrNull()?.let {
-                views.setFloat(
-                    R.id.bc_arrow,
-                    "setRotation",
-                    normalizeDegrees(it + 180f)
-                )
-            }
+            views.setImageViewResource(
+                R.id.bc_arrow,
+                directionDrawable(bcDirection)
+            )
 
             val updated = WindRepository.value(
                 context,
@@ -148,7 +151,11 @@ class WindWidgetProvider : AppWidgetProvider() {
 
             views.setTextViewText(
                 R.id.updated_at,
-                if (loading) "Обновяване…" else "Обновено $updated"
+                if (loading) {
+                    "Обновяване…"
+                } else {
+                    "Обновено $updated"
+                }
             )
 
             attachClicks(context, views, appWidgetId)
@@ -159,21 +166,49 @@ class WindWidgetProvider : AppWidgetProvider() {
             return if (value == "—") "—" else "$value°"
         }
 
-        private fun normalizeDegrees(value: Float): Float {
-            return ((value % 360f) + 360f) % 360f
-        }
-
         private fun directionShortName(value: String): String {
-            val degrees = value.replace(',', '.').toDoubleOrNull()
+            val degrees = value
+                .replace(',', '.')
+                .toDoubleOrNull()
                 ?: return "—"
 
-            val normalized = ((degrees % 360.0) + 360.0) % 360.0
-            val index = ((normalized + 22.5) / 45.0).toInt() % 8
+            val normalized =
+                ((degrees % 360.0) + 360.0) % 360.0
+
+            val index =
+                ((normalized + 22.5) / 45.0).toInt() % 8
 
             return listOf(
                 "С", "СИ", "И", "ЮИ",
                 "Ю", "ЮЗ", "З", "СЗ"
             )[index]
+        }
+
+        /*
+         * Датчикът показва откъде идва вятърът.
+         * Стрелката показва накъде духа: +180 градуса.
+         */
+        private fun directionDrawable(value: String): Int {
+            val degrees = value
+                .replace(',', '.')
+                .toDoubleOrNull()
+                ?: return R.drawable.ic_direction_n
+
+            val toward =
+                (((degrees + 180.0) % 360.0) + 360.0) % 360.0
+
+            return when (
+                ((toward + 22.5) / 45.0).toInt() % 8
+            ) {
+                0 -> R.drawable.ic_direction_n
+                1 -> R.drawable.ic_direction_ne
+                2 -> R.drawable.ic_direction_e
+                3 -> R.drawable.ic_direction_se
+                4 -> R.drawable.ic_direction_s
+                5 -> R.drawable.ic_direction_sw
+                6 -> R.drawable.ic_direction_w
+                else -> R.drawable.ic_direction_nw
+            }
         }
 
         private fun attachClicks(
@@ -188,13 +223,14 @@ class WindWidgetProvider : AppWidgetProvider() {
                 action = ACTION_REFRESH
             }
 
-            val refreshPendingIntent = PendingIntent.getBroadcast(
-                context,
-                1000 + appWidgetId,
-                refreshIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT or
-                    PendingIntent.FLAG_IMMUTABLE
-            )
+            val refreshPendingIntent =
+                PendingIntent.getBroadcast(
+                    context,
+                    1000 + appWidgetId,
+                    refreshIntent,
+                    PendingIntent.FLAG_UPDATE_CURRENT or
+                        PendingIntent.FLAG_IMMUTABLE
+                )
 
             views.setOnClickPendingIntent(
                 R.id.refresh_button,
@@ -205,17 +241,19 @@ class WindWidgetProvider : AppWidgetProvider() {
                 context,
                 MainActivity::class.java
             ).apply {
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK or
-                    Intent.FLAG_ACTIVITY_CLEAR_TOP
+                flags =
+                    Intent.FLAG_ACTIVITY_NEW_TASK or
+                        Intent.FLAG_ACTIVITY_CLEAR_TOP
             }
 
-            val openAppPendingIntent = PendingIntent.getActivity(
-                context,
-                2000 + appWidgetId,
-                openAppIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT or
-                    PendingIntent.FLAG_IMMUTABLE
-            )
+            val openAppPendingIntent =
+                PendingIntent.getActivity(
+                    context,
+                    2000 + appWidgetId,
+                    openAppIntent,
+                    PendingIntent.FLAG_UPDATE_CURRENT or
+                        PendingIntent.FLAG_IMMUTABLE
+                )
 
             views.setOnClickPendingIntent(
                 R.id.widget_root,
@@ -225,37 +263,47 @@ class WindWidgetProvider : AppWidgetProvider() {
 
         fun requestRefresh(context: Context) {
             val constraints = Constraints.Builder()
-                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .setRequiredNetworkType(
+                    NetworkType.CONNECTED
+                )
                 .build()
 
-            val request = OneTimeWorkRequestBuilder<WindUpdateWorker>()
-                .setConstraints(constraints)
-                .build()
+            val request =
+                OneTimeWorkRequestBuilder<WindUpdateWorker>()
+                    .setConstraints(constraints)
+                    .build()
 
-            WorkManager.getInstance(context).enqueueUniqueWork(
-                MANUAL_WORK,
-                ExistingWorkPolicy.REPLACE,
-                request
-            )
+            WorkManager.getInstance(context)
+                .enqueueUniqueWork(
+                    MANUAL_WORK,
+                    ExistingWorkPolicy.REPLACE,
+                    request
+                )
         }
 
-        private fun schedulePeriodicRefresh(context: Context) {
+        private fun schedulePeriodicRefresh(
+            context: Context
+        ) {
             val constraints = Constraints.Builder()
-                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .setRequiredNetworkType(
+                    NetworkType.CONNECTED
+                )
                 .build()
 
-            val request = PeriodicWorkRequestBuilder<WindUpdateWorker>(
-                15,
-                TimeUnit.MINUTES
-            )
-                .setConstraints(constraints)
-                .build()
+            val request =
+                PeriodicWorkRequestBuilder<WindUpdateWorker>(
+                    15,
+                    TimeUnit.MINUTES
+                )
+                    .setConstraints(constraints)
+                    .build()
 
-            WorkManager.getInstance(context).enqueueUniquePeriodicWork(
-                PERIODIC_WORK,
-                ExistingPeriodicWorkPolicy.UPDATE,
-                request
-            )
+            WorkManager.getInstance(context)
+                .enqueueUniquePeriodicWork(
+                    PERIODIC_WORK,
+                    ExistingPeriodicWorkPolicy.UPDATE,
+                    request
+                )
         }
     }
 }
