@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
     android:description="@string/widget_description"
-    android:initialLayout="@layout/widget_wind"
-    android:minWidth="250dp"
-    android:minHeight="120dp"
-    android:previewLayout="@layout/widget_wind"
+    android:initialLayout="@layout/widget_wind_small"
+    android:minWidth="110dp"
+    android:minHeight="60dp"
+    android:previewLayout="@layout/widget_wind_small"
     android:resizeMode="horizontal|vertical"
     android:updatePeriodMillis="0"
     android:widgetCategory="home_screen" />

@@ -6,7 +6,9 @@ import android.appwidget.AppWidgetProvider
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
+import android.os.Bundle
 import android.widget.RemoteViews
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
@@ -30,17 +32,33 @@ class WindWidgetProvider : AppWidgetProvider() {
         appWidgetIds: IntArray
     ) {
         appWidgetIds.forEach { id ->
-            appWidgetManager.updateAppWidget(id, buildViews(context))
+            appWidgetManager.updateAppWidget(
+                id,
+                buildViews(context, appWidgetManager, id)
+            )
         }
         schedulePeriodicRefresh(context)
         requestRefresh(context)
     }
 
+    override fun onAppWidgetOptionsChanged(
+        context: Context,
+        appWidgetManager: AppWidgetManager,
+        appWidgetId: Int,
+        newOptions: Bundle
+    ) {
+        appWidgetManager.updateAppWidget(
+            appWidgetId,
+            buildViews(context, appWidgetManager, appWidgetId)
+        )
+    }
+
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
+
         if (intent.action == ACTION_REFRESH) {
-            requestRefresh(context)
             updateAll(context, loading = true)
+            requestRefresh(context)
         }
     }
 
@@ -48,77 +66,168 @@ class WindWidgetProvider : AppWidgetProvider() {
         const val ACTION_REFRESH = "bg.travelgin.vtmiswind.ACTION_REFRESH"
         private const val PERIODIC_WORK = "vtmis_periodic_refresh"
         private const val MANUAL_WORK = "vtmis_manual_refresh"
+        private const val SMALL_WIDTH_DP = 220
 
         fun updateAll(context: Context, loading: Boolean = false) {
             val manager = AppWidgetManager.getInstance(context)
             val component = ComponentName(context, WindWidgetProvider::class.java)
+
             manager.getAppWidgetIds(component).forEach { id ->
-                manager.updateAppWidget(id, buildViews(context, loading))
+                manager.updateAppWidget(
+                    id,
+                    buildViews(context, manager, id, loading)
+                )
             }
         }
 
         private fun buildViews(
             context: Context,
+            manager: AppWidgetManager,
+            appWidgetId: Int,
             loading: Boolean = false
         ): RemoteViews {
-            val views = RemoteViews(context.packageName, R.layout.widget_wind)
+            val minWidth = manager.getAppWidgetOptions(appWidgetId)
+                .getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH)
 
-            views.setTextViewText(
-                R.id.rk_speed,
-                "${WindRepository.value(context, "rk_speed")} m/s"
+            return if (minWidth in 1 until SMALL_WIDTH_DP) {
+                buildSmallViews(context, appWidgetId, loading)
+            } else {
+                buildLargeViews(context, appWidgetId, loading)
+            }
+        }
+
+        private fun buildSmallViews(
+            context: Context,
+            appWidgetId: Int,
+            loading: Boolean
+        ): RemoteViews {
+            val views = RemoteViews(
+                context.packageName,
+                R.layout.widget_wind_small
             )
+
+            val rkSpeed = WindRepository.value(context, "rk_speed")
+            val bcSpeed = WindRepository.value(context, "bc_speed")
+            val updated = WindRepository.value(context, "updated_at", "—")
+
+            views.setTextViewText(R.id.rk_speed_small, "$rkSpeed m/s")
+            views.setTextViewText(R.id.bc_speed_small, "$bcSpeed m/s")
+            views.setTextColor(R.id.rk_speed_small, speedColor(rkSpeed))
+            views.setTextColor(R.id.bc_speed_small, speedColor(bcSpeed))
+            views.setTextViewText(
+                R.id.updated_at_small,
+                if (loading) "Обновяване…" else updated
+            )
+
+            attachClicks(context, views, appWidgetId)
+            return views
+        }
+
+        private fun buildLargeViews(
+            context: Context,
+            appWidgetId: Int,
+            loading: Boolean
+        ): RemoteViews {
+            val views = RemoteViews(
+                context.packageName,
+                R.layout.widget_wind
+            )
+
+            val rkSpeed = WindRepository.value(context, "rk_speed")
+            val bcSpeed = WindRepository.value(context, "bc_speed")
+
+            views.setTextViewText(R.id.rk_speed, "$rkSpeed m/s")
             views.setTextViewText(
                 R.id.rk_max,
-                "порив ${WindRepository.value(context, "rk_max")} m/s"
+                "Порив ${WindRepository.value(context, "rk_max")} m/s"
             )
             views.setTextViewText(
                 R.id.rk_direction,
-                "${WindRepository.value(context, "rk_direction")}°"
+                "Посока ${WindRepository.value(context, "rk_direction")}°"
             )
 
-            views.setTextViewText(
-                R.id.bc_speed,
-                "${WindRepository.value(context, "bc_speed")} m/s"
-            )
+            views.setTextViewText(R.id.bc_speed, "$bcSpeed m/s")
             views.setTextViewText(
                 R.id.bc_max,
-                "порив ${WindRepository.value(context, "bc_max")} m/s"
+                "Порив ${WindRepository.value(context, "bc_max")} m/s"
             )
             views.setTextViewText(
                 R.id.bc_direction,
-                "${WindRepository.value(context, "bc_direction")}°"
+                "Посока ${WindRepository.value(context, "bc_direction")}°"
             )
 
-            val updated = WindRepository.value(context, "updated_at", "няма данни")
+            views.setTextColor(R.id.rk_speed, speedColor(rkSpeed))
+            views.setTextColor(R.id.bc_speed, speedColor(bcSpeed))
+
+            val updated = WindRepository.value(
+                context,
+                "updated_at",
+                "няма данни"
+            )
             views.setTextViewText(
                 R.id.updated_at,
-                if (loading) "Обновяване…" else "Обновено: $updated"
+                if (loading) "Обновяване…" else "Обновено $updated"
             )
 
-            val refreshIntent = Intent(context, WindWidgetProvider::class.java).apply {
+            attachClicks(context, views, appWidgetId)
+            return views
+        }
+
+        private fun attachClicks(
+            context: Context,
+            views: RemoteViews,
+            appWidgetId: Int
+        ) {
+            val refreshIntent = Intent(
+                context,
+                WindWidgetProvider::class.java
+            ).apply {
                 action = ACTION_REFRESH
             }
+
             val refreshPendingIntent = PendingIntent.getBroadcast(
                 context,
-                10,
+                1000 + appWidgetId,
                 refreshIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                PendingIntent.FLAG_UPDATE_CURRENT or
+                    PendingIntent.FLAG_IMMUTABLE
             )
-            views.setOnClickPendingIntent(R.id.refresh_button, refreshPendingIntent)
 
-            val websiteIntent = Intent(
-                Intent.ACTION_VIEW,
-                Uri.parse("https://www.vtmis.bg/bg/meteobg")
+            views.setOnClickPendingIntent(
+                R.id.refresh_button,
+                refreshPendingIntent
             )
-            val websitePendingIntent = PendingIntent.getActivity(
+
+            val openAppIntent = Intent(
                 context,
-                11,
-                websiteIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-            )
-            views.setOnClickPendingIntent(R.id.widget_root, websitePendingIntent)
+                MainActivity::class.java
+            ).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or
+                    Intent.FLAG_ACTIVITY_CLEAR_TOP
+            }
 
-            return views
+            val openAppPendingIntent = PendingIntent.getActivity(
+                context,
+                2000 + appWidgetId,
+                openAppIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT or
+                    PendingIntent.FLAG_IMMUTABLE
+            )
+
+            views.setOnClickPendingIntent(
+                R.id.widget_root,
+                openAppPendingIntent
+            )
+        }
+
+        private fun speedColor(value: String): Int {
+            val speed = value.replace(',', '.').toDoubleOrNull() ?: 0.0
+
+            return when {
+                speed < 5.0 -> Color.parseColor("#73E6C2")
+                speed < 10.0 -> Color.parseColor("#FFD166")
+                else -> Color.parseColor("#FF7B7B")
+            }
         }
 
         fun requestRefresh(context: Context) {
