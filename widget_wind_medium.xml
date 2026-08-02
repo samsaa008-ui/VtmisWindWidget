@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/widget_background_premium"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="30dp" android:gravity="center_vertical" android:orientation="horizontal">
+        <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_wind" android:tint="#42D7C7" android:contentDescription="Вятър"/>
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="7dp" android:layout_weight="1" android:includeFontPadding="false" android:text="ВЯТЪР · ВАРНА" android:textColor="#F4F8FC" android:textSize="12sp" android:textStyle="bold"/>
+        <TextView android:id="@+id/refresh_button" android:layout_width="34dp" android:layout_height="30dp" android:gravity="center" android:includeFontPadding="false" android:text="↻" android:textColor="#FFFFFF" android:textSize="22sp"/>
+    </LinearLayout>
+    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#35FFFFFF"/>
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:orientation="vertical" android:paddingTop="7dp" android:paddingBottom="6dp">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="28dp" android:gravity="center_vertical" android:orientation="horizontal">
+            <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_windsock" android:contentDescription="РК Варна"/>
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="6dp" android:layout_weight="1" android:includeFontPadding="false" android:text="РК ВАРНА" android:textColor="#F4F8FC" android:textSize="10sp" android:textStyle="bold"/>
+            <ImageView android:id="@+id/rk_arrow_medium" android:layout_width="18dp" android:layout_height="18dp" android:src="@drawable/ic_direction_arrow" android:tint="#42D7C7" android:contentDescription="Посока"/>
+            <TextView android:id="@+id/rk_direction_medium" android:layout_width="48dp" android:layout_height="wrap_content" android:gravity="end" android:includeFontPadding="false" android:text="—°" android:textColor="#FFFFFF" android:textSize="11sp" android:textStyle="bold"/>
+        </LinearLayout>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:orientation="horizontal">
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:orientation="vertical">
+                <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:gravity="bottom" android:orientation="horizontal">
+                    <TextView android:id="@+id/rk_speed_medium" android:layout_width="wrap_content" android:layout_height="wrap_content" android:includeFontPadding="false" android:maxLines="1" android:text="—" android:textColor="#42D7C7" android:textSize="22sp" android:textStyle="bold"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="2dp" android:layout_marginBottom="2dp" android:includeFontPadding="false" android:maxLines="1" android:text="m/s" android:textColor="#42D7C7" android:textSize="10sp" android:textStyle="bold"/>
+                </LinearLayout>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:includeFontPadding="false" android:text="СКОРОСТ" android:textColor="#AFC5D9" android:textSize="7sp"/>
+            </LinearLayout>
+            <View android:layout_width="1dp" android:layout_height="38dp" android:background="#35FFFFFF"/>
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:orientation="vertical">
+                <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:gravity="bottom" android:orientation="horizontal">
+                    <TextView android:id="@+id/rk_max_medium" android:layout_width="wrap_content" android:layout_height="wrap_content" android:includeFontPadding="false" android:maxLines="1" android:text="—" android:textColor="#FFD05A" android:textSize="22sp" android:textStyle="bold"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="2dp" android:layout_marginBottom="2dp" android:includeFontPadding="false" android:maxLines="1" android:text="m/s" android:textColor="#FFD05A" android:textSize="10sp" android:textStyle="bold"/>
+                </LinearLayout>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:includeFontPadding="false" android:text="ПОРИВ" android:textColor="#AFC5D9" android:textSize="7sp"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#35FFFFFF"/>
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:orientation="vertical" android:paddingTop="7dp" android:paddingBottom="6dp">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="28dp" android:gravity="center_vertical" android:orientation="horizontal">
+            <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_lighthouse" android:contentDescription="БЦ Варна"/>
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="6dp" android:layout_weight="1" android:includeFontPadding="false" android:text="БЦ ВАРНА" android:textColor="#F4F8FC" android:textSize="10sp" android:textStyle="bold"/>
+            <ImageView android:id="@+id/bc_arrow_medium" android:layout_width="18dp" android:layout_height="18dp" android:src="@drawable/ic_direction_arrow" android:tint="#42D7C7" android:contentDescription="Посока"/>
+            <TextView android:id="@+id/bc_direction_medium" android:layout_width="48dp" android:layout_height="wrap_content" android:gravity="end" android:includeFontPadding="false" android:text="—°" android:textColor="#FFFFFF" android:textSize="11sp" android:textStyle="bold"/>
+        </LinearLayout>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:orientation="horizontal">
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:orientation="vertical">
+                <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:gravity="bottom" android:orientation="horizontal">
+                    <TextView android:id="@+id/bc_speed_medium" android:layout_width="wrap_content" android:layout_height="wrap_content" android:includeFontPadding="false" android:maxLines="1" android:text="—" android:textColor="#42D7C7" android:textSize="22sp" android:textStyle="bold"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="2dp" android:layout_marginBottom="2dp" android:includeFontPadding="false" android:maxLines="1" android:text="m/s" android:textColor="#42D7C7" android:textSize="10sp" android:textStyle="bold"/>
+                </LinearLayout>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:includeFontPadding="false" android:text="СКОРОСТ" android:textColor="#AFC5D9" android:textSize="7sp"/>
+            </LinearLayout>
+            <View android:layout_width="1dp" android:layout_height="38dp" android:background="#35FFFFFF"/>
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:orientation="vertical">
+                <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:gravity="bottom" android:orientation="horizontal">
+                    <TextView android:id="@+id/bc_max_medium" android:layout_width="wrap_content" android:layout_height="wrap_content" android:includeFontPadding="false" android:maxLines="1" android:text="—" android:textColor="#FFD05A" android:textSize="22sp" android:textStyle="bold"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="2dp" android:layout_marginBottom="2dp" android:includeFontPadding="false" android:maxLines="1" android:text="m/s" android:textColor="#FFD05A" android:textSize="10sp" android:textStyle="bold"/>
+                </LinearLayout>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:includeFontPadding="false" android:text="ПОРИВ" android:textColor="#AFC5D9" android:textSize="7sp"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#35FFFFFF"/>
+    <TextView android:id="@+id/updated_at_medium" android:layout_width="match_parent" android:layout_height="20dp" android:gravity="center" android:includeFontPadding="false" android:text="Обновено —" android:textColor="#9FB4C7" android:textSize="8sp"/>
+</LinearLayout>
