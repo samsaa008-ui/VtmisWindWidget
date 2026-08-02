@@ -47,7 +47,8 @@ jobs:
           cp WindRepository.kt app/src/main/java/bg/travelgin/vtmiswind/
           cp WindUpdateWorker.kt app/src/main/java/bg/travelgin/vtmiswind/
           cp WindWidgetProvider.kt app/src/main/java/bg/travelgin/vtmiswind/
-
+          cp widget_wind_small.xml app/src/main/res/layout/
+         
           cp activity_main.xml app/src/main/res/layout/
           cp widget_wind.xml app/src/main/res/layout/
           cp widget_background.xml app/src/main/res/drawable/
