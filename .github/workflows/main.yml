@@ -53,6 +53,8 @@ jobs:
           cp ic_direction_arrow.xml app/src/main/res/drawable/
           cp ic_windsock.xml app/src/main/res/drawable/
           cp ic_lighthouse.xml app/src/main/res/drawable/
+          cp widget_wind_medium.xml app/src/main/res/layout/
+          cp ic_wind.xml app/src/main/res/drawable/
       
           cp activity_main.xml app/src/main/res/layout/
           cp widget_wind.xml app/src/main/res/layout/
