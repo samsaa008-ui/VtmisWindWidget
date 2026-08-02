@@ -49,8 +49,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 } else {
                     runOnUiThread {
-                        binding.status.text =
-                            "Не са намерени двата датчика"
+                        binding.status.text = "Не са намерени двата датчика"
                         binding.refreshNow.isEnabled = true
                     }
                 }
@@ -83,12 +82,17 @@ class MainActivity : AppCompatActivity() {
         binding.bcDirectionValue.text = "$bcDirection°"
         binding.bcDirectionName.text = directionName(bcDirection)
 
+        /*
+         * Данните показват ОТКЪДЕ идва вятърът.
+         * Стрелката трябва да сочи НАКЪДЕ духа,
+         * затова добавяме 180 градуса.
+         */
         rkDirection.replace(',', '.').toFloatOrNull()?.let {
-            binding.rkArrow.rotation = it
+            binding.rkArrow.rotation = normalizeDegrees(it + 180f)
         }
 
         bcDirection.replace(',', '.').toFloatOrNull()?.let {
-            binding.bcArrow.rotation = it
+            binding.bcArrow.rotation = normalizeDegrees(it + 180f)
         }
 
         val updated = WindRepository.value(
@@ -96,7 +100,12 @@ class MainActivity : AppCompatActivity() {
             "updated_at",
             "още няма данни"
         )
+
         binding.status.text = "Обновено $updated"
+    }
+
+    private fun normalizeDegrees(value: Float): Float {
+        return ((value % 360f) + 360f) % 360f
     }
 
     private fun directionName(value: String): String {
@@ -118,3 +127,4 @@ class MainActivity : AppCompatActivity() {
         )[index]
     }
 }
+
