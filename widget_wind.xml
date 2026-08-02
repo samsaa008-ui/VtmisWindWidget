@@ -3,142 +3,89 @@
     android:id="@+id/widget_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/widget_background"
+    android:background="@drawable/widget_background_premium"
     android:orientation="vertical"
-    android:padding="15dp">
+    android:paddingStart="14dp"
+    android:paddingTop="10dp"
+    android:paddingEnd="10dp"
+    android:paddingBottom="8dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="38dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="ВЯТЪР · ВАРНА"
-            android:textColor="#EAF5FF"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/refresh_button"
-            android:layout_width="42dp"
-            android:layout_height="38dp"
-            android:gravity="center"
-            android:text="↻"
-            android:textColor="#FFFFFF"
-            android:textSize="24sp" />
+    <LinearLayout android:layout_width="match_parent" android:layout_height="30dp" android:gravity="center_vertical" android:orientation="horizontal">
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="ВЯТЪР · ВАРНА" android:textColor="#F4F8FC" android:textSize="13sp" android:textStyle="bold" />
+        <TextView android:id="@+id/refresh_button" android:layout_width="36dp" android:layout_height="30dp" android:gravity="center" android:text="↻" android:textColor="#FFFFFF" android:textSize="23sp" />
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal">
+    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#3FFFFFFF" />
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:orientation="vertical"
-            android:paddingEnd="12dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="РК ВАРНА"
-                android:textColor="#AFC5D9"
-                android:textSize="11sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/rk_speed"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:text="— m/s"
-                android:textColor="#73E6C2"
-                android:textSize="27sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/rk_max"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Порив — m/s"
-                android:textColor="#D6E7F8"
-                android:textSize="11sp" />
-
-            <TextView
-                android:id="@+id/rk_direction"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Посока —°"
-                android:textColor="#91A9BE"
-                android:textSize="10sp" />
+    <LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:gravity="center_vertical" android:orientation="horizontal" android:paddingTop="5dp" android:paddingBottom="5dp">
+        <LinearLayout android:layout_width="67dp" android:layout_height="match_parent" android:gravity="center_vertical" android:orientation="vertical">
+            <ImageView android:layout_width="30dp" android:layout_height="30dp" android:contentDescription="РК Варна" android:src="@drawable/ic_windsock" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="1dp" android:text="РК ВАРНА" android:textColor="#F4F8FC" android:textSize="9sp" android:textStyle="bold" />
         </LinearLayout>
 
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:background="#3FFFFFFF" />
+        <LinearLayout android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center" android:orientation="vertical">
+            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:gravity="bottom" android:orientation="horizontal">
+                <TextView android:id="@+id/rk_speed" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" android:textColor="#42D7C7" android:textSize="28sp" android:textStyle="bold" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="3dp" android:layout_marginBottom="4dp" android:text="m/s" android:textColor="#42D7C7" android:textSize="11sp" android:textStyle="bold" />
+            </LinearLayout>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="СКОРОСТ" android:textColor="#BFD0DF" android:textSize="8sp" />
+        </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:orientation="vertical"
-            android:paddingStart="14dp">
+        <View android:layout_width="1dp" android:layout_height="45dp" android:background="#3FFFFFFF" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="БЦ ВАРНА"
-                android:textColor="#AFC5D9"
-                android:textSize="11sp"
-                android:textStyle="bold" />
+        <LinearLayout android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center" android:orientation="vertical">
+            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:gravity="bottom" android:orientation="horizontal">
+                <TextView android:id="@+id/rk_max" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" android:textColor="#FFD05A" android:textSize="28sp" android:textStyle="bold" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="3dp" android:layout_marginBottom="4dp" android:text="m/s" android:textColor="#FFD05A" android:textSize="11sp" android:textStyle="bold" />
+            </LinearLayout>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="ПОРИВ" android:textColor="#BFD0DF" android:textSize="8sp" />
+        </LinearLayout>
 
-            <TextView
-                android:id="@+id/bc_speed"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:text="— m/s"
-                android:textColor="#73E6C2"
-                android:textSize="27sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/bc_max"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Порив — m/s"
-                android:textColor="#D6E7F8"
-                android:textSize="11sp" />
-
-            <TextView
-                android:id="@+id/bc_direction"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Посока —°"
-                android:textColor="#91A9BE"
-                android:textSize="10sp" />
+        <LinearLayout android:layout_width="82dp" android:layout_height="match_parent" android:gravity="center" android:orientation="vertical">
+            <FrameLayout android:layout_width="34dp" android:layout_height="34dp" android:background="@drawable/compass_circle">
+                <ImageView android:id="@+id/rk_arrow" android:layout_width="18dp" android:layout_height="18dp" android:layout_gravity="center" android:contentDescription="Посока" android:src="@drawable/ic_direction_arrow" />
+            </FrameLayout>
+            <TextView android:id="@+id/rk_direction" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="1dp" android:text="—°" android:textColor="#FFFFFF" android:textSize="13sp" android:textStyle="bold" />
+            <TextView android:id="@+id/rk_direction_name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:ellipsize="end" android:maxLines="1" android:text="—" android:textColor="#34BFE7" android:textSize="7sp" android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/updated_at"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Обновено —"
-        android:textColor="#91A9BE"
-        android:textSize="9sp" />
+    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#3FFFFFFF" />
 
+    <LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:gravity="center_vertical" android:orientation="horizontal" android:paddingTop="5dp" android:paddingBottom="5dp">
+        <LinearLayout android:layout_width="67dp" android:layout_height="match_parent" android:gravity="center_vertical" android:orientation="vertical">
+            <ImageView android:layout_width="30dp" android:layout_height="30dp" android:contentDescription="БЦ Варна" android:src="@drawable/ic_lighthouse" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="1dp" android:text="БЦ ВАРНА" android:textColor="#F4F8FC" android:textSize="9sp" android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center" android:orientation="vertical">
+            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:gravity="bottom" android:orientation="horizontal">
+                <TextView android:id="@+id/bc_speed" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" android:textColor="#42D7C7" android:textSize="28sp" android:textStyle="bold" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="3dp" android:layout_marginBottom="4dp" android:text="m/s" android:textColor="#42D7C7" android:textSize="11sp" android:textStyle="bold" />
+            </LinearLayout>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="СКОРОСТ" android:textColor="#BFD0DF" android:textSize="8sp" />
+        </LinearLayout>
+
+        <View android:layout_width="1dp" android:layout_height="45dp" android:background="#3FFFFFFF" />
+
+        <LinearLayout android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center" android:orientation="vertical">
+            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:gravity="bottom" android:orientation="horizontal">
+                <TextView android:id="@+id/bc_max" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" android:textColor="#FFD05A" android:textSize="28sp" android:textStyle="bold" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="3dp" android:layout_marginBottom="4dp" android:text="m/s" android:textColor="#FFD05A" android:textSize="11sp" android:textStyle="bold" />
+            </LinearLayout>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="ПОРИВ" android:textColor="#BFD0DF" android:textSize="8sp" />
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="82dp" android:layout_height="match_parent" android:gravity="center" android:orientation="vertical">
+            <FrameLayout android:layout_width="34dp" android:layout_height="34dp" android:background="@drawable/compass_circle">
+                <ImageView android:id="@+id/bc_arrow" android:layout_width="18dp" android:layout_height="18dp" android:layout_gravity="center" android:contentDescription="Посока" android:src="@drawable/ic_direction_arrow" />
+            </FrameLayout>
+            <TextView android:id="@+id/bc_direction" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="1dp" android:text="—°" android:textColor="#FFFFFF" android:textSize="13sp" android:textStyle="bold" />
+            <TextView android:id="@+id/bc_direction_name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:ellipsize="end" android:maxLines="1" android:text="—" android:textColor="#34BFE7" android:textSize="7sp" android:textStyle="bold" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#3FFFFFFF" />
+
+    <TextView android:id="@+id/updated_at" android:layout_width="match_parent" android:layout_height="22dp" android:gravity="center" android:text="Обновено —" android:textColor="#DCE8F2" android:textSize="9sp" />
 </LinearLayout>

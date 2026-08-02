@@ -1,0 +1,62 @@
+В WindWidgetProvider.kt замени цялата функция buildLargeViews(...) с тази:
+
+private fun buildLargeViews(
+    context: Context,
+    appWidgetId: Int,
+    loading: Boolean
+): RemoteViews {
+    val views = RemoteViews(context.packageName, R.layout.widget_wind)
+
+    val rkSpeed = WindRepository.value(context, "rk_speed")
+    val rkMax = WindRepository.value(context, "rk_max")
+    val rkDirection = WindRepository.value(context, "rk_direction")
+
+    val bcSpeed = WindRepository.value(context, "bc_speed")
+    val bcMax = WindRepository.value(context, "bc_max")
+    val bcDirection = WindRepository.value(context, "bc_direction")
+
+    views.setTextViewText(R.id.rk_speed, rkSpeed)
+    views.setTextViewText(R.id.rk_max, rkMax)
+    views.setTextViewText(R.id.rk_direction, "$rkDirection°")
+    views.setTextViewText(R.id.rk_direction_name, directionName(rkDirection))
+
+    views.setTextViewText(R.id.bc_speed, bcSpeed)
+    views.setTextViewText(R.id.bc_max, bcMax)
+    views.setTextViewText(R.id.bc_direction, "$bcDirection°")
+    views.setTextViewText(R.id.bc_direction_name, directionName(bcDirection))
+
+    rkDirection.replace(',', '.').toFloatOrNull()?.let {
+        views.setFloat(R.id.rk_arrow, "setRotation", it)
+    }
+    bcDirection.replace(',', '.').toFloatOrNull()?.let {
+        views.setFloat(R.id.bc_arrow, "setRotation", it)
+    }
+
+    val updated = WindRepository.value(context, "updated_at", "няма данни")
+    views.setTextViewText(
+        R.id.updated_at,
+        if (loading) "Обновяване…" else "Обновено $updated"
+    )
+
+    attachClicks(context, views, appWidgetId)
+    return views
+}
+
+Добави и тази функция вътре в companion object:
+
+private fun directionName(value: String): String {
+    val degrees = value.replace(',', '.').toDoubleOrNull() ?: return "—"
+    val normalized = ((degrees % 360.0) + 360.0) % 360.0
+    val index = ((normalized + 22.5) / 45.0).toInt() % 8
+
+    return listOf(
+        "С (СЕВЕР)",
+        "СИ (СЕВЕРОИЗТОК)",
+        "И (ИЗТОК)",
+        "ЮИ (ЮГОИЗТОК)",
+        "Ю (ЮГ)",
+        "ЮЗ (ЮГОЗАПАД)",
+        "З (ЗАПАД)",
+        "СЗ (СЕВЕРОЗАПАД)"
+    )[index]
+}
