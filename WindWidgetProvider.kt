@@ -96,31 +96,72 @@ class WindWidgetProvider : AppWidgetProvider() {
             }
         }
 
-        private fun buildSmallViews(
-            context: Context,
-            appWidgetId: Int,
-            loading: Boolean
-        ): RemoteViews {
-            val views = RemoteViews(
-                context.packageName,
-                R.layout.widget_wind_small
-            )
+           private fun buildSmallViews(
+           context: Context,
+           appWidgetId: Int,
+           loading: Boolean
+): RemoteViews {
+    val views = RemoteViews(
+        context.packageName,
+        R.layout.widget_wind_small
+    )
 
-            val rkSpeed = WindRepository.value(context, "rk_speed")
-            val bcSpeed = WindRepository.value(context, "bc_speed")
-            val updated = WindRepository.value(context, "updated_at", "—")
+    val rkSpeed = WindRepository.value(context, "rk_speed")
+    val bcSpeed = WindRepository.value(context, "bc_speed")
 
-            views.setTextViewText(R.id.rk_speed_small, "$rkSpeed m/s")
-            views.setTextViewText(R.id.bc_speed_small, "$bcSpeed m/s")
-            views.setTextColor(R.id.rk_speed_small, speedColor(rkSpeed))
-            views.setTextColor(R.id.bc_speed_small, speedColor(bcSpeed))
-            views.setTextViewText(
-                R.id.updated_at_small,
-                if (loading) "Обновяване…" else updated
-            )
+    views.setTextViewText(
+        R.id.rk_speed_small,
+        "$rkSpeed m/s"
+    )
+    views.setTextViewText(
+        R.id.rk_max_small,
+        "П ${WindRepository.value(context, "rk_max")}"
+    )
+    views.setTextViewText(
+        R.id.rk_direction_small,
+        "${WindRepository.value(context, "rk_direction")}°"
+    )
 
-            attachClicks(context, views, appWidgetId)
-            return views
+    views.setTextViewText(
+        R.id.bc_speed_small,
+        "$bcSpeed m/s"
+    )
+    views.setTextViewText(
+        R.id.bc_max_small,
+        "П ${WindRepository.value(context, "bc_max")}"
+    )
+    views.setTextViewText(
+        R.id.bc_direction_small,
+        "${WindRepository.value(context, "bc_direction")}°"
+    )
+
+    views.setTextColor(
+        R.id.rk_speed_small,
+        speedColor(rkSpeed)
+    )
+    views.setTextColor(
+        R.id.bc_speed_small,
+        speedColor(bcSpeed)
+    )
+
+    val updated = WindRepository.value(
+        context,
+        "updated_at",
+        "—"
+    )
+
+    views.setTextViewText(
+        R.id.updated_at_small,
+        if (loading) {
+            "Обновяване…"
+        } else {
+            "Обновено $updated"
+        }
+    )
+
+    attachClicks(context, views, appWidgetId)
+
+    return views
         }
 
         private fun buildLargeViews(
