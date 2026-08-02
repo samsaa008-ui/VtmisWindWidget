@@ -9,22 +9,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="14dp">
+        android:padding="12dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/app_dashboard_background"
             android:orientation="vertical"
-            android:paddingStart="18dp"
-            android:paddingTop="16dp"
-            android:paddingEnd="14dp"
-            android:paddingBottom="12dp">
+            android:paddingStart="12dp"
+            android:paddingTop="14dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="10dp">
 
             <!-- Заглавие -->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="52dp"
+                android:layout_height="48dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -35,18 +35,18 @@
                     android:includeFontPadding="false"
                     android:text="ВЯТЪР · ВАРНА"
                     android:textColor="#FFFFFF"
-                    android:textSize="25sp"
+                    android:textSize="22sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/refresh_now"
-                    android:layout_width="50dp"
-                    android:layout_height="48dp"
+                    android:layout_width="46dp"
+                    android:layout_height="44dp"
                     android:gravity="center"
                     android:includeFontPadding="false"
                     android:text="↻"
                     android:textColor="#FFFFFF"
-                    android:textSize="35sp" />
+                    android:textSize="31sp" />
             </LinearLayout>
 
             <View
@@ -54,35 +54,37 @@
                 android:layout_height="1dp"
                 android:background="#45FFFFFF" />
 
-            <!-- РК Варна -->
+            <!-- РК ВАРНА -->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="165dp"
+                android:layout_height="155dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp">
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp">
 
+                <!-- Станция -->
                 <LinearLayout
-                    android:layout_width="92dp"
+                    android:layout_width="70dp"
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:orientation="vertical">
 
                     <ImageView
-                        android:layout_width="58dp"
-                        android:layout_height="58dp"
+                        android:layout_width="46dp"
+                        android:layout_height="46dp"
                         android:contentDescription="РК Варна"
                         android:src="@drawable/ic_windsock" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="7dp"
+                        android:layout_marginTop="6dp"
                         android:includeFontPadding="false"
+                        android:maxLines="1"
                         android:text="РК ВАРНА"
                         android:textColor="#FFFFFF"
-                        android:textSize="14sp"
+                        android:textSize="11sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -92,18 +94,20 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:paddingStart="2dp"
+                    android:paddingEnd="2dp">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
+                        android:gravity="center"
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:layout_width="31dp"
-                            android:layout_height="31dp"
-                            android:layout_marginEnd="7dp"
+                            android:layout_width="23dp"
+                            android:layout_height="23dp"
+                            android:layout_marginEnd="3dp"
                             android:contentDescription="Скорост"
                             android:src="@drawable/ic_wind"
                             android:tint="#42D7C7" />
@@ -112,22 +116,29 @@
                             android:id="@+id/rk_speed_value"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:autoSizeMaxTextSize="22sp"
+                            android:autoSizeMinTextSize="16sp"
+                            android:autoSizeStepGranularity="1sp"
+                            android:autoSizeTextType="uniform"
+                            android:ellipsize="none"
                             android:includeFontPadding="false"
                             android:maxLines="1"
+                            android:singleLine="true"
                             android:text="—"
                             android:textColor="#FFFFFF"
-                            android:textSize="36sp"
+                            android:textSize="22sp"
                             android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="4dp"
+                            android:layout_marginStart="2dp"
                             android:includeFontPadding="false"
                             android:maxLines="1"
+                            android:singleLine="true"
                             android:text="m/s"
                             android:textColor="#42D7C7"
-                            android:textSize="16sp"
+                            android:textSize="10sp"
                             android:textStyle="bold" />
                     </LinearLayout>
 
@@ -138,12 +149,12 @@
                         android:includeFontPadding="false"
                         android:text="СКОРОСТ"
                         android:textColor="#C3D0DC"
-                        android:textSize="12sp" />
+                        android:textSize="9sp" />
                 </LinearLayout>
 
                 <View
                     android:layout_width="1dp"
-                    android:layout_height="82dp"
+                    android:layout_height="70dp"
                     android:background="#45FFFFFF" />
 
                 <!-- Порив -->
@@ -152,18 +163,20 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:paddingStart="2dp"
+                    android:paddingEnd="2dp">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
+                        android:gravity="center"
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:layout_width="31dp"
-                            android:layout_height="31dp"
-                            android:layout_marginEnd="7dp"
+                            android:layout_width="23dp"
+                            android:layout_height="23dp"
+                            android:layout_marginEnd="3dp"
                             android:contentDescription="Порив"
                             android:src="@drawable/ic_gust"
                             android:tint="#FFD05A" />
@@ -172,22 +185,29 @@
                             android:id="@+id/rk_gust_value"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:autoSizeMaxTextSize="22sp"
+                            android:autoSizeMinTextSize="16sp"
+                            android:autoSizeStepGranularity="1sp"
+                            android:autoSizeTextType="uniform"
+                            android:ellipsize="none"
                             android:includeFontPadding="false"
                             android:maxLines="1"
+                            android:singleLine="true"
                             android:text="—"
                             android:textColor="#FFFFFF"
-                            android:textSize="36sp"
+                            android:textSize="22sp"
                             android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="4dp"
+                            android:layout_marginStart="2dp"
                             android:includeFontPadding="false"
                             android:maxLines="1"
+                            android:singleLine="true"
                             android:text="m/s"
                             android:textColor="#FFD05A"
-                            android:textSize="16sp"
+                            android:textSize="10sp"
                             android:textStyle="bold" />
                     </LinearLayout>
 
@@ -198,30 +218,30 @@
                         android:includeFontPadding="false"
                         android:text="ПОРИВ"
                         android:textColor="#C3D0DC"
-                        android:textSize="12sp" />
+                        android:textSize="9sp" />
                 </LinearLayout>
 
                 <View
                     android:layout_width="1dp"
-                    android:layout_height="82dp"
+                    android:layout_height="70dp"
                     android:background="#45FFFFFF" />
 
                 <!-- Посока -->
                 <LinearLayout
-                    android:layout_width="112dp"
+                    android:layout_width="94dp"
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:orientation="vertical">
 
                     <FrameLayout
-                        android:layout_width="58dp"
-                        android:layout_height="58dp"
+                        android:layout_width="54dp"
+                        android:layout_height="54dp"
                         android:background="@drawable/compass_circle">
 
                         <ImageView
                             android:id="@+id/rk_arrow"
-                            android:layout_width="29dp"
-                            android:layout_height="29dp"
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
                             android:layout_gravity="center"
                             android:contentDescription="Посока"
                             android:src="@drawable/ic_direction_arrow"
@@ -232,23 +252,25 @@
                         android:id="@+id/rk_direction_value"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="4dp"
                         android:includeFontPadding="false"
+                        android:maxLines="1"
                         android:text="—°"
                         android:textColor="#FFFFFF"
-                        android:textSize="24sp"
+                        android:textSize="18sp"
                         android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/rk_direction_name"
-                        android:layout_width="wrap_content"
+                        android:layout_width="90dp"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
+                        android:gravity="center"
                         android:includeFontPadding="false"
                         android:maxLines="1"
                         android:text="—"
                         android:textColor="#34BFE7"
-                        android:textSize="10sp"
+                        android:textSize="8sp"
                         android:textStyle="bold" />
                 </LinearLayout>
             </LinearLayout>
@@ -258,35 +280,37 @@
                 android:layout_height="1dp"
                 android:background="#45FFFFFF" />
 
-            <!-- БЦ Варна -->
+            <!-- БЦ ВАРНА -->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="165dp"
+                android:layout_height="155dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp">
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp">
 
+                <!-- Станция -->
                 <LinearLayout
-                    android:layout_width="92dp"
+                    android:layout_width="70dp"
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:orientation="vertical">
 
                     <ImageView
-                        android:layout_width="58dp"
-                        android:layout_height="58dp"
+                        android:layout_width="46dp"
+                        android:layout_height="46dp"
                         android:contentDescription="БЦ Варна"
                         android:src="@drawable/ic_lighthouse" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="7dp"
+                        android:layout_marginTop="6dp"
                         android:includeFontPadding="false"
+                        android:maxLines="1"
                         android:text="БЦ ВАРНА"
                         android:textColor="#FFFFFF"
-                        android:textSize="14sp"
+                        android:textSize="11sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -296,18 +320,20 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:paddingStart="2dp"
+                    android:paddingEnd="2dp">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
+                        android:gravity="center"
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:layout_width="31dp"
-                            android:layout_height="31dp"
-                            android:layout_marginEnd="7dp"
+                            android:layout_width="23dp"
+                            android:layout_height="23dp"
+                            android:layout_marginEnd="3dp"
                             android:contentDescription="Скорост"
                             android:src="@drawable/ic_wind"
                             android:tint="#42D7C7" />
@@ -316,22 +342,29 @@
                             android:id="@+id/bc_speed_value"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:autoSizeMaxTextSize="22sp"
+                            android:autoSizeMinTextSize="16sp"
+                            android:autoSizeStepGranularity="1sp"
+                            android:autoSizeTextType="uniform"
+                            android:ellipsize="none"
                             android:includeFontPadding="false"
                             android:maxLines="1"
+                            android:singleLine="true"
                             android:text="—"
                             android:textColor="#FFFFFF"
-                            android:textSize="36sp"
+                            android:textSize="22sp"
                             android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="4dp"
+                            android:layout_marginStart="2dp"
                             android:includeFontPadding="false"
                             android:maxLines="1"
+                            android:singleLine="true"
                             android:text="m/s"
                             android:textColor="#42D7C7"
-                            android:textSize="16sp"
+                            android:textSize="10sp"
                             android:textStyle="bold" />
                     </LinearLayout>
 
@@ -342,12 +375,12 @@
                         android:includeFontPadding="false"
                         android:text="СКОРОСТ"
                         android:textColor="#C3D0DC"
-                        android:textSize="12sp" />
+                        android:textSize="9sp" />
                 </LinearLayout>
 
                 <View
                     android:layout_width="1dp"
-                    android:layout_height="82dp"
+                    android:layout_height="70dp"
                     android:background="#45FFFFFF" />
 
                 <!-- Порив -->
@@ -356,18 +389,20 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:paddingStart="2dp"
+                    android:paddingEnd="2dp">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
+                        android:gravity="center"
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:layout_width="31dp"
-                            android:layout_height="31dp"
-                            android:layout_marginEnd="7dp"
+                            android:layout_width="23dp"
+                            android:layout_height="23dp"
+                            android:layout_marginEnd="3dp"
                             android:contentDescription="Порив"
                             android:src="@drawable/ic_gust"
                             android:tint="#FFD05A" />
@@ -376,22 +411,29 @@
                             android:id="@+id/bc_gust_value"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:autoSizeMaxTextSize="22sp"
+                            android:autoSizeMinTextSize="16sp"
+                            android:autoSizeStepGranularity="1sp"
+                            android:autoSizeTextType="uniform"
+                            android:ellipsize="none"
                             android:includeFontPadding="false"
                             android:maxLines="1"
+                            android:singleLine="true"
                             android:text="—"
                             android:textColor="#FFFFFF"
-                            android:textSize="36sp"
+                            android:textSize="22sp"
                             android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="4dp"
+                            android:layout_marginStart="2dp"
                             android:includeFontPadding="false"
                             android:maxLines="1"
+                            android:singleLine="true"
                             android:text="m/s"
                             android:textColor="#FFD05A"
-                            android:textSize="16sp"
+                            android:textSize="10sp"
                             android:textStyle="bold" />
                     </LinearLayout>
 
@@ -402,30 +444,30 @@
                         android:includeFontPadding="false"
                         android:text="ПОРИВ"
                         android:textColor="#C3D0DC"
-                        android:textSize="12sp" />
+                        android:textSize="9sp" />
                 </LinearLayout>
 
                 <View
                     android:layout_width="1dp"
-                    android:layout_height="82dp"
+                    android:layout_height="70dp"
                     android:background="#45FFFFFF" />
 
                 <!-- Посока -->
                 <LinearLayout
-                    android:layout_width="112dp"
+                    android:layout_width="94dp"
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:orientation="vertical">
 
                     <FrameLayout
-                        android:layout_width="58dp"
-                        android:layout_height="58dp"
+                        android:layout_width="54dp"
+                        android:layout_height="54dp"
                         android:background="@drawable/compass_circle">
 
                         <ImageView
                             android:id="@+id/bc_arrow"
-                            android:layout_width="29dp"
-                            android:layout_height="29dp"
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
                             android:layout_gravity="center"
                             android:contentDescription="Посока"
                             android:src="@drawable/ic_direction_arrow"
@@ -436,23 +478,25 @@
                         android:id="@+id/bc_direction_value"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="4dp"
                         android:includeFontPadding="false"
+                        android:maxLines="1"
                         android:text="—°"
                         android:textColor="#FFFFFF"
-                        android:textSize="24sp"
+                        android:textSize="18sp"
                         android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/bc_direction_name"
-                        android:layout_width="wrap_content"
+                        android:layout_width="90dp"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
+                        android:gravity="center"
                         android:includeFontPadding="false"
                         android:maxLines="1"
                         android:text="—"
                         android:textColor="#34BFE7"
-                        android:textSize="10sp"
+                        android:textSize="8sp"
                         android:textStyle="bold" />
                 </LinearLayout>
             </LinearLayout>
@@ -462,9 +506,10 @@
                 android:layout_height="1dp"
                 android:background="#45FFFFFF" />
 
+            <!-- Последно обновяване -->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="44dp"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -474,20 +519,19 @@
                     android:includeFontPadding="false"
                     android:text="◷"
                     android:textColor="#42D7C7"
-                    android:textSize="26sp" />
+                    android:textSize="22sp" />
 
                 <TextView
                     android:id="@+id/status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginStart="7dp"
                     android:includeFontPadding="false"
                     android:text="Обновено —"
                     android:textColor="#FFFFFF"
-                    android:textSize="15sp" />
+                    android:textSize="13sp" />
             </LinearLayout>
 
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
-
