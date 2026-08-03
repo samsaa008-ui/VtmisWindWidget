@@ -1,0 +1,10 @@
+          cp app_dashboard_background.xml app/src/main/res/drawable/
+
+          cp ic_direction_n.xml app/src/main/res/drawable/
+          cp ic_direction_ne.xml app/src/main/res/drawable/
+          cp ic_direction_e.xml app/src/main/res/drawable/
+          cp ic_direction_se.xml app/src/main/res/drawable/
+          cp ic_direction_s.xml app/src/main/res/drawable/
+          cp ic_direction_sw.xml app/src/main/res/drawable/
+          cp ic_direction_w.xml app/src/main/res/drawable/
+          cp ic_direction_nw.xml app/src/main/res/drawable/
